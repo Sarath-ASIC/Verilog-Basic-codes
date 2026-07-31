@@ -9,7 +9,7 @@ always @(*) begin
         4'b0010: Y = 2'b01;
         4'b0100: Y = 2'b10;
         4'b1000: Y = 2'b11;
-        default: Y = 2'b00; // Invalid input
+        default: Y = 2'b00; 
     endcase
 end
 
