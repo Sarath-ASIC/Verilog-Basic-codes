@@ -1,3 +1,4 @@
+//This module is to show that all 3:1 design is also possible
 module mux3to1 (
     input  wire i0,
     input  wire i1,
