@@ -31,7 +31,7 @@ siso_sr dut1 (
                $dumpvars(0,siso_sim);
                
                $monitor( "Time =%0t s_in=%b clk =%b s_out = %b", $time , s_in ,clk, s_out);
-               
+               // shift in data 1011
                shift_in(1);
                shift_in(0);
                shift_in(1);
