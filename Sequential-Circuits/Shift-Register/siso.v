@@ -6,7 +6,7 @@ module siso_sr( input s_in, clk,
                  
                  reg[3:0] shift_register; //shift register bank creation
                  
-                 assign s_out = shift_register[3];
+                 assign s_out = shift_register[3];   // This single line performs the entire shift operation.
                  
                  always @(posedge clk) 
                  begin
