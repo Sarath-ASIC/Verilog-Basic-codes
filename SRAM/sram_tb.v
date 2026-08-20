@@ -21,6 +21,8 @@ module sram_tb;
 
     initial
     begin
+        $dumpfile("sram.vcd");
+        $dumpvars(0, sram_tb);
 
         // Initial values
         clk = 0;
