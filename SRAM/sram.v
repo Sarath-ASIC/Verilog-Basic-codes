@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module sram (
     input clk,
     input we,
