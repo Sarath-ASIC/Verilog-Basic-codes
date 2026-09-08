@@ -43,11 +43,7 @@ module memory_1_dimension_tb;
         addr    = 0;
         data_in = 0;
 
-
-        // ====================================
         // WRITE PHASE
-        // ====================================
-
         $display("STARTING WRITE PHASE");
 
 
@@ -72,20 +68,14 @@ module memory_1_dimension_tb;
 
         wr_en = 0;
 
-
-        // ====================================
         // WAIT FOR 2 CYCLES
-        // ====================================
-
+        
         $display("WAITING FOR 2 CYCLES");
 
         repeat (2) @(posedge clk);
 
-
-        // ====================================
         // READ PHASE
-        // ====================================
-
+       
         $display("STARTING READ PHASE");
 
 
@@ -98,17 +88,12 @@ module memory_1_dimension_tb;
             #1;
 
             $display(
-                "Address = %0d | Data = %0d",
-                addr,
-                data_out
-            );
+                "Address = %0d | Data = %0d",addr,data_out );
 
         end
 
 
-        #10;
-
-        $finish;
+        #10;   $finish;
 
     end
 
