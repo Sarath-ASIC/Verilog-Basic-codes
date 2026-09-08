@@ -2,10 +2,7 @@
 
 module memory_1_dimension_tb;
 
-    // ----------------------------------------
     // Testbench signals
-    // ----------------------------------------
-
     reg clk;
     reg [7:0] data_in;
     reg wr_en;
@@ -13,15 +10,10 @@ module memory_1_dimension_tb;
 
     wire [7:0] data_out;
 
-
-    // Loop variable
-   integer i;
+    integer i;
 
 
-  
     // DUT Instantiation
-
-
     memory_1_dimension dut (
         .clk      (clk),
         .data_in  (data_in),
@@ -31,11 +23,7 @@ module memory_1_dimension_tb;
     );
 
 
-
-    // Clock Generation
-    // Clock Period = 10 ns
-
-
+    // Clock generation
     initial begin
         clk = 0;
 
@@ -43,108 +31,85 @@ module memory_1_dimension_tb;
     end
 
 
-    // Main Test Sequence
-
-
+    // Main stimulus
     initial begin
+    
+    $dumpfile("mem_op.vcd");
+    $dumpvars(0,memory_1_dimension_tb);
+     
 
         // Initial values
-        data_in = 8'd0;
         wr_en   = 0;
-        addr    = 3'd0;
+        addr    = 0;
+        data_in = 0;
 
 
-        $display("==================================");
-        $display("STARTING WRITE OPERATION");
-        $display("==================================");
+        // ====================================
+        // WRITE PHASE
+        // ====================================
 
-        wr_en = 1;
+        $display("STARTING WRITE PHASE");
+
 
         for (i = 0; i < 8; i = i + 1) begin
 
+            // Apply inputs at negative edge
+            @(negedge clk);
+
+            wr_en   = 1;
             addr    = i;
             data_in = i + 10;
 
-            // Wait for one rising clock edge
-            @(posedge clk);
 
-            $display(
-                "WRITE: Address = %0d | Data = %0d",
-                addr,
-                data_in
-            );
+            // DUT writes at next positive edge
+            @(posedge clk);
 
         end
 
 
-        // Disable write operation
+        // Disable write enable
+        @(negedge clk);
+
         wr_en = 0;
 
 
-        // WAIT FOR 2 CLOCK CYCLES
+        // ====================================
+        // WAIT FOR 2 CYCLES
+        // ====================================
 
-        $display("==================================");
-        $display("WAITING FOR 2 CLOCK CYCLES");
-        $display("==================================");
+        $display("WAITING FOR 2 CYCLES");
 
         repeat (2) @(posedge clk);
 
 
+        // ====================================
+        // READ PHASE
+        // ====================================
 
-        // READ ALL 8 MEMORY LOCATIONS
-        $display("==================================");
-        $display("STARTING READ OPERATION");
-        $display("==================================");
+        $display("STARTING READ PHASE");
+
 
         for (i = 0; i < 8; i = i + 1) begin
 
+            @(negedge clk);
+
             addr = i;
 
-            // Small delay for asynchronous read
             #1;
 
             $display(
-                "READ : Address = %0d | Data = %0d",
+                "Address = %0d | Data = %0d",
                 addr,
                 data_out
             );
 
-            // Move to next cycle
-            @(posedge clk);
-
         end
 
-        $display("==================================");
-        $display("TEST COMPLETED");
-        $display("==================================");
 
         #10;
 
         $finish;
 
     end
-
-
-    
-    // Waveform Monitoring
-    initial begin
-
-        $monitor(
-            "TIME = %0t | CLK = %b | WR_EN = %b | ADDR = %0d | DATA_IN = %0d | DATA_OUT = %0d",
-            $time,
-            clk,
-            wr_en,
-            addr,
-            data_in,
-            data_out
-        );
-
-    end
-    
-    initial begin
-    $dumpfile("mem_op.vcd");
-    $dumpvars(0, memory_1_dimension_tb);
-end
-
 
 endmodule
