@@ -12,7 +12,7 @@ module memory_1_dimension_tb;
 
     integer i;
 
-
+ 
     // DUT Instantiation
     memory_1_dimension dut (
         .clk      (clk),
