@@ -123,38 +123,13 @@ The requester should present `req_valid` while `req_ready` is high and then wait
 
 ## 8. Files
 
-- `beginner_l1_cache.v` — cache RTL and the initialized backing-memory model.
-- `tb_beginner_l1_cache.v` — self-checking testbench.
+- `l1_cache_version1.0.v` — cache RTL and the initialized backing-memory model.
+- `tb_l1_cache_vesion1.0.v` — self-checking testbench.
 - `README.md` — this documentation.
 
-## 9. How to Simulate
 
-### Using Icarus Verilog
 
-Run these commands from the project directory:
-
-```bash
-iverilog -g2012 -o simv beginner_l1_cache.v tb_beginner_l1_cache.v
-vvp simv
-```
-
-To inspect the waveform, open `beginner_l1_cache.vcd` with GTKWave:
-
-```bash
-gtkwave beginner_l1_cache.vcd
-```
-
-The testbench uses `$dumpfile` and `$dumpvars` to generate the waveform.
-
-### Using QuestaSim
-
-```tcl
-vlog beginner_l1_cache.v tb_beginner_l1_cache.v
-vsim -voptargs=+acc work.tb_beginner_l1_cache
-run -all
-```
-
-## 10. Expected Test Sequence
+## 9. Expected Test Sequence
 
 The initialized backing memory contains `main_mem[2] = 8'hF0` and `main_mem[6] = 8'h77`.
 
@@ -165,7 +140,7 @@ The initialized backing memory contains `main_mem[2] = 8'hF0` and `main_mem[6] =
 
 The testbench prints `PASS` for each returned data value and prints the final hit/miss event counts. Exact timestamps depend on simulator scheduling.
 
-## 11. Limitations and Important Notes
+## 10. Limitations and Important Notes
 
 - This is a functional learning model, not a timing-accurate model of a physical L1 cache or SRAM macro.
 - The backing memory is an initialized Verilog array and is read asynchronously in the `REFILL` state. Real SRAMs commonly have different read timing and may require additional wait states.
@@ -174,7 +149,7 @@ The testbench prints `PASS` for each returned data value and prints the final hi
 - There is one outstanding request at a time. It does not model multiple outstanding misses, coherence, or virtual-to-physical address translation.
 - `hit` and `miss` are one-cycle lookup-event indicators; `resp_valid` marks the response cycle. The first access after reset is expected to miss because all valid bits are cleared.
 
-## 12. Future Work
+## 11. Future Work
 
 - Extend each cache line to a multi-byte block and add offset bits, then implement burst refill from main memory.
 - Add processor writes with a clearly defined write-through or write-back policy, and verify the behavior with a larger testbench.
