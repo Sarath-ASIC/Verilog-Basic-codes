@@ -13,7 +13,7 @@ always @(*) begin
     // Default: all outputs LOW
     y = 4'b0000;
 
-    case(s)
+    case(s) //case statement
 
         2'b00 : y[0] = in;
 
